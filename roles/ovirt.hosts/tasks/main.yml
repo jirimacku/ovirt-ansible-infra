@@ -40,26 +40,14 @@
   with_items:
     - "{{ hosts | default([]) }}"
   loop_control:
-    pause: 30
     label: "{{ item.name }}"
-  async: "{{ ovirt_hosts_max_timeout }}"
-  poll: 0
   register: add_hosts
   tags:
     - hosts
 
-- name: Wait for hosts to be added
-  async_status: "jid={{ item.ansible_job_id }}"
-  register: job_result
-  with_items:
-    - "{{ add_hosts.results | removesensitive }}"
-  loop_control:
-    label: "{{ item.item.name }}"
-  tags:
-    - hosts
-  until: job_result.finished
-  retries: "{{ ovirt_hosts_max_timeout // 20 }}"
-  delay: 20
+- name: Log result of adding hosts
+  debug:
+    var: add_hosts
 
 - name: Set Power Management
   ovirt_host_pm:
