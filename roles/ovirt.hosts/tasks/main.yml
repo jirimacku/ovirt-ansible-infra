@@ -83,7 +83,7 @@
         label: "{{ item.address }}"
     - name: Print the enable_filter output
       debug:
-        msg: "{{ enable_filter.stdout }}"
+        msg: "{{ enable_filter.results }}"
     - name: Check if the lvm fitler set as expected
       shell: "lvm dumpconfig devices/filter"
       register: filter_setting
@@ -93,7 +93,7 @@
         label: "{{ item.address }}"
     - name: Print the lvm filter_setting output
       debug:
-        msg: "{{ filter_setting.stdout }}"
+        msg: "{{ filter_setting.results }}"
     - name: Fail with error when lvm filter not enabled as expected
       fail:
         msg: "The lvm-filter not enabled as expected with the following output: {{ item.stdout }}"
